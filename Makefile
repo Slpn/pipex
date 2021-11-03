@@ -1,13 +1,15 @@
-SRCS	 	=
+SRCS	 	= src/pipex.c
 
-SRCS_BONUS	 =
+# SRCS_BONUS	 =
 
 OBJS 		= 	${SRCS:.c=.o}
-OBJS_BONUS	=	${SRCS_BONUS:.c=.o}
+# OBJS_BONUS	=	${SRCS_BONUS:.c=.o}
 
 CC 			= 	gcc
-CFLAGS		= 	-Wall -Wextra -Werror -g -g3
+# CFLAGS		= 	-Wall -Wextra -Werror -g -g3
 RM			= 	rm -f
+LIBPATH		=	libft/
+LIB 		=	libft/libft.a
 NAME		= 	pipex
 NAME_BONUS	=	pipex_bonus
 
@@ -19,7 +21,8 @@ bonus:			${NAME_BONUS}
 				${CC} ${CFLAGS} -c $< -o ${<:.c=.o}
 
 $(NAME):		$(OBJS)
-				${CC} ${CFLAGS} ${OBJS} -o ${NAME}
+				make -C $(LIBPATH)
+				${CC} ${OBJS} ${LIB} -o ${NAME}
 
 $(NAME_BONUS): 	$(OBJS_BONUS)
 				${CC} ${CFLAGS} ${OBJS_BONUS} -o ${NAME_BONUS}
