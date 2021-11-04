@@ -21,4 +21,6 @@
 # include <fcntl.h>
 # include "../libft/libft.h"
 
+char **get_path(char **env);
+
 #endif

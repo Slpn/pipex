@@ -14,12 +14,13 @@
 
 int main(int ac, char **av, char **env)
 {
-    pid_t pid;
-    int pipefd[2];
-    char buf[1024];
-    int ret = 0;
+    pid_t   pid;
+    int     pipefd[2];
+    char    buf[1024];
+    int     ret = 0;
 
-    if (pipe(pipefd))
+    env = get_path(env);
+    if (pipe(pipefd) == -1)
     {
         perror("pipe");
         return 1;
@@ -42,13 +43,12 @@ int main(int ac, char **av, char **env)
         close(pipefd[1]);
         while((ret = read(pipefd[0], &buf, 1023)))
         {
-          buf[ret] = 0;
-          printf("%s\n", buf);
+            buf[ret] = 0;
+            printf("%s\n", buf);
         }
         close(pipefd[0]);
     }
     return (0);
-
 }
 
 // int main(int ac, char **av, char **env)
@@ -89,14 +89,4 @@ int main(int ac, char **av, char **env)
 //           printf("je suis le pid %d\n\n", getpid());
 //
 //     return (0);
-// }
-// if (ac > 1)
-// {
-//     if (execve(av[1], (av + 1), env) == -1)
-//         perror("execve");
-//     else
-//     {
-//         while ()
-//             wait(&status);
-//     }
 // }

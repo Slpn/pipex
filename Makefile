@@ -1,4 +1,17 @@
-SRCS	 	= src/pipex.c
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: snarain <snarain@student.42.fr>            +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2021/11/04 15:39:52 by snarain           #+#    #+#              #
+#    Updated: 2021/11/04 15:39:54 by snarain          ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+SRCS	 	=	src/pipex.c \
+				src/get_path.c
 
 # SRCS_BONUS	 =
 
@@ -28,10 +41,12 @@ $(NAME_BONUS): 	$(OBJS_BONUS)
 				${CC} ${CFLAGS} ${OBJS_BONUS} -o ${NAME_BONUS}
 
 clean:
+				make -C ${LIBPATH} clean
 				${RM} ${OBJS} ${OBJS_BONUS}
 
-fclean:			clean
-				${RM} ${NAME} ${NAME_BONUS}
+fclean:			@clean
+				@make -C ${LIBPATH} fclean
+				${RM} ${NAME}  ${NAME_BONUS}
 
 re:				fclean all
 
