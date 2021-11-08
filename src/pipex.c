@@ -14,39 +14,15 @@
 
 int main(int ac, char **av, char **env)
 {
-    pid_t   pid;
-    int     pipefd[2];
-    char    buf[1024];
-    int     ret = 0;
-
-    env = get_path(env);
-    if (pipe(pipefd) == -1)
+    t_struct data;
+    
+    if(av > 4)
     {
-        perror("pipe");
-        return 1;
-    }
-    pid = fork();
-    if (pid == -1)
-    {
-        perror("fork");
-        return 1;
-    }
-    if (pid == 0)
-    {
-        close(pipefd[0]);
-        write(pipefd[1], av[1], ft_strlen(av[1]));
-        close(pipefd[1]);
-        return (0);
-    }
-    else
-    {
-        close(pipefd[1]);
-        while((ret = read(pipefd[0], &buf, 1023)))
-        {
-            buf[ret] = 0;
-            printf("%s\n", buf);
-        }
-        close(pipefd[0]);
+        init_data(av, env, &data);
+        if (data.pid == 0)
+            child_proc(&data);
+        else
+            parent_proc(&data);
     }
     return (0);
 }

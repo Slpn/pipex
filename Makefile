@@ -11,7 +11,12 @@
 # **************************************************************************** #
 
 SRCS	 	=	src/pipex.c \
-				src/get_path.c
+				src/free.c \
+				src/get_path.c \
+				src/parse_arg.c \
+				src/child_proc.c \
+				src/parent_proc.c \
+				src/utils.c
 
 # SRCS_BONUS	 =
 
@@ -44,8 +49,8 @@ clean:
 				make -C ${LIBPATH} clean
 				${RM} ${OBJS} ${OBJS_BONUS}
 
-fclean:			@clean
-				@make -C ${LIBPATH} fclean
+fclean:			clean
+				make -C ${LIBPATH} fclean
 				${RM} ${NAME}  ${NAME_BONUS}
 
 re:				fclean all

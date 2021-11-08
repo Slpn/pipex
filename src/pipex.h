@@ -21,6 +21,32 @@
 # include <fcntl.h>
 # include "../libft/libft.h"
 
-char **get_path(char **env);
+/*
+    FLAGS
+*/
 
+// typedef enum s_flag
+// {
+//     TRUE;
+//     FALSE
+// }   t_flag;
+
+typedef struct  s_struct
+{
+    pid_t   pid;
+    int     pipefd[2];
+    char    buf[1024];
+    char    **path;
+    int     ret;
+    int     len;
+    char    **av;
+    char    **env;
+}   t_struct;
+
+char    **get_path(char **env);
+void    ft_free_tab(char **tab);
+int     get_len(char **av, char **path);
+void *init_data(char **av, char **env, t_struct *data);
+void child_proc(t_struct *data);
+void   parent_proc(t_struct *data);
 #endif
