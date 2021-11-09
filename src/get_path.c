@@ -12,7 +12,7 @@
 
 #include "pipex.h"
 
-char **get_path(char **env)
+char *get_path(char **env)
 {
     int     i;
     char    **tab;
@@ -24,6 +24,5 @@ char **get_path(char **env)
             break ;
         i++;
     }
-    tab = ft_split(env[i], ':');
-    return (tab);
+    return (env[i] + 5);
 }

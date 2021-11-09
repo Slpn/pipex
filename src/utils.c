@@ -1,6 +1,6 @@
 #include "pipex.h"
 
-void *init_data(char **av, char **env, t_struct *data)
+void *init_data(int ac, char **av, char **env, t_struct *data)
 {
     if (pipe(data->pipefd)== -1)
     {
@@ -13,12 +13,13 @@ void *init_data(char **av, char **env, t_struct *data)
         perror("fork");
         exit (1);
     }
+    // outfile = av[ac - 1]
     data->ret = 0;
-    data->len = 0;
-    data->path = get_path(env);
-    data->pid = fork();
+    data->lenarg = ac - 3;
     data->av = av;
+    data->path = get_path(env);
     data->env = env;
+    data->pid = fork();
 }
 
 int    ft_tablen(char **tab)

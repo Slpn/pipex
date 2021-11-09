@@ -15,18 +15,18 @@
 int main(int ac, char **av, char **env)
 {
     t_struct data;
-    
-    if(av > 4)
+
+    if (ac > 4)
     {
-        init_data(av, env, &data);
+        init_data(ac, av, env, &data);
         if (data.pid == 0)
             child_proc(&data);
         else
             parent_proc(&data);
+        
     }
     return (0);
 }
-
 // int main(int ac, char **av, char **env)
 // {
 //     pid_t   pid;
