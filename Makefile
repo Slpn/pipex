@@ -13,7 +13,6 @@
 SRCS	 	=	src/pipex.c \
 				src/free.c \
 				src/get_path.c \
-				src/parse_arg.c \
 				src/child_proc.c \
 				src/parent_proc.c \
 				src/utils.c

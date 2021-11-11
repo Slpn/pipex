@@ -43,10 +43,11 @@ typedef struct  s_struct
     char    **env;
 }   t_struct;
 
-char    *get_path(char **env);
+char *get_path(char *cmd, t_struct *data);
 void    ft_free_tab(char **tab);
 int     get_len(char **av, char **path);
 void *init_data(int ac, char **av, char **env, t_struct *data);
 void child_proc(t_struct *data);
 void  parent_proc(t_struct *data);
+void	execute(char *av, t_struct *data);
 #endif

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: snarain <snarain@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/11/10 15:49:24 by snarain           #+#    #+#             */
+/*   Updated: 2021/11/10 15:49:25 by snarain          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "pipex.h"
 
 void *init_data(int ac, char **av, char **env, t_struct *data)
@@ -13,13 +25,11 @@ void *init_data(int ac, char **av, char **env, t_struct *data)
         perror("fork");
         exit (1);
     }
-    // outfile = av[ac - 1]
     data->ret = 0;
     data->lenarg = ac - 3;
     data->av = av;
-    data->path = get_path(env);
+    data->path = NULL;
     data->env = env;
-    data->pid = fork();
 }
 
 int    ft_tablen(char **tab)
