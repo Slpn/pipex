@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_path.c                                         :+:      :+:    :+:   */
+/*   get_path_bonus.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: snarain <snarain@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/04 15:40:28 by snarain           #+#    #+#             */
-/*   Updated: 2021/11/12 19:51:43 by snarain          ###   ########.fr       */
+/*   Created: 2021/11/12 17:30:23 by snarain           #+#    #+#             */
+/*   Updated: 2021/11/12 17:30:47 by snarain          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "pipex_bonus.h"
 
 char    *get_path(char *cmd, t_struct *data)
 {
@@ -22,7 +22,6 @@ char    *get_path(char *cmd, t_struct *data)
     i = 0;
     while (data->env[i])
     {
-        // printf("env = %s\n", data->env);
         if (ft_strncmp(data->env[i], "PATH=", 5) == 0)
             break ;
         i++;
@@ -38,6 +37,6 @@ char    *get_path(char *cmd, t_struct *data)
             return(path);
         i++;
     }
-    ft_putstr_fd("command not found\n", 2);
+    // ft_putstr_fd("command not found", 2);
     return (NULL);
 }

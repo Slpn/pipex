@@ -12,6 +12,15 @@
 
 #include "pipex.h"
 
+void    ft_exit(t_struct *data)
+{
+    if (data->path != NULL)
+        free(data);
+    close(data->pipefd[0]);
+    close(data->pipefd[1]);
+    exit(1);
+}
+
 void ft_free_tab(char **tab)
 {
     int i;

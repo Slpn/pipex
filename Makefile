@@ -13,17 +13,18 @@
 SRCS	 	=	src/pipex.c \
 				src/free.c \
 				src/get_path.c \
-				src/child_proc.c \
-				src/parent_proc.c \
 				src/utils.c
 
-# SRCS_BONUS	 =
+SRCS_BONUS	 =	bonus/pipex_bonus.c \
+				bonus/free_bonus.c \
+				bonus/get_path_bonus.c \
+				bonus/utils_bonus.c
 
 OBJS 		= 	${SRCS:.c=.o}
-# OBJS_BONUS	=	${SRCS_BONUS:.c=.o}
+OBJS_BONUS	=	${SRCS_BONUS:.c=.o}
 
 CC 			= 	gcc
-# CFLAGS		= 	-Wall -Wextra -Werror -g -g3
+CFLAGS		= 	-Wall -Wextra -Werror -g -g3
 RM			= 	rm -f
 LIBPATH		=	libft/
 LIB 		=	libft/libft.a
@@ -34,15 +35,16 @@ all:			${NAME}
 
 bonus:			${NAME_BONUS}
 
-.c.o:
-				${CC} ${CFLAGS} -c $< -o ${<:.c=.o}
+# .c.o:
+# 				${CC} -c $< -o ${<:.c=.o}
 
 $(NAME):		$(OBJS)
 				make -C $(LIBPATH)
-				${CC} ${OBJS} ${LIB} -o ${NAME}
+				${CC} $(CFLAGS) ${OBJS} ${LIB} -o ${NAME}
 
 $(NAME_BONUS): 	$(OBJS_BONUS)
-				${CC} ${CFLAGS} ${OBJS_BONUS} -o ${NAME_BONUS}
+				make -C $(LIBPATH)
+				${CC} $(CFLAGS) ${OBJS_BONUS} ${LIB} -o ${NAME_BONUS}
 
 clean:
 				make -C ${LIBPATH} clean

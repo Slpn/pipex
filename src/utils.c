@@ -12,24 +12,27 @@
 
 #include "pipex.h"
 
-void *init_data(int ac, char **av, char **env, t_struct *data)
+t_struct init_data(int ac, char **av, char **env)
 {
-    if (pipe(data->pipefd)== -1)
+    t_struct data;
+
+    if (pipe(data.pipefd)== -1)
     {
         perror("pipe");
-        exit (1);
+        // exit(1);
     }
-    data->pid = fork();
-    if (data->pid == -1)
+    data.pid = fork();
+    if (data.pid == -1)
     {
         perror("fork");
-        exit (1);
+        // ft_exit(data);
     }
-    data->ret = 0;
-    data->lenarg = ac - 3;
-    data->av = av;
-    data->path = NULL;
-    data->env = env;
+    data.ret = 0;
+    data.lenarg = ac - 3;
+    data.av = av;
+    data.path = NULL;
+    data.env = env;
+    return (data);
 }
 
 int    ft_tablen(char **tab)
