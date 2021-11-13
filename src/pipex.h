@@ -25,10 +25,10 @@ typedef struct  s_struct
 {
     pid_t   pid;
     int     pipefd[2];
-    char    buf[1024];
     char    *path;
-    int     ret;
     int     lenarg;
+    int     infile;
+    int     outfile;
     char    **av;
     char    **env;
 }   t_struct;
@@ -37,9 +37,7 @@ char        *get_path(char *cmd, t_struct *data);
 void        ft_free_tab(char **tab);
 int         get_len(char **av, char **path);
 t_struct    init_data(int ac, char **av, char **env);
-void        child_proc(t_struct *data);
+void        child_proc(t_struct *data, int i);
 void        parent_proc(t_struct *data);
-void        execute(char *av, t_struct *data);
-void        ft_exit(t_struct *data);
-
+void        execute(char **cmd, t_struct *data);
 #endif

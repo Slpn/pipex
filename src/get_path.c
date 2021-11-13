@@ -6,7 +6,7 @@
 /*   By: snarain <snarain@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/04 15:40:28 by snarain           #+#    #+#             */
-/*   Updated: 2021/11/12 19:51:43 by snarain          ###   ########.fr       */
+/*   Updated: 2021/11/12 23:10:45 by snarain          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,8 @@ char    *get_path(char *cmd, t_struct *data)
     char    *path;
 
     i = 0;
-    while (data->env[i])
-    {
-        // printf("env = %s\n", data->env);
-        if (ft_strncmp(data->env[i], "PATH=", 5) == 0)
-            break ;
+    while (ft_strnstr(data->env[i], "PATH", 4) == 0)
         i++;
-    }
     tab = ft_split(data->env[i] + 5, ':');
     i = 0;
     while (tab[i])

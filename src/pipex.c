@@ -12,62 +12,63 @@
 
 # include "pipex.h"
 
-void    execute(char *av, t_struct *data)
+void    execute(char **cmd, t_struct *data)
 {
-    char    **cmd;
 
-    cmd = ft_split(av, ' ');
     data->path = get_path(cmd[0], data);
-    // if (data->path == NULL)
-    // {
-    //     perror("data->path");
-    //     // ft_free_tab(cmd);
-    //     ft_exit(data);
-    // }
+    if (data->path == NULL)
+    {
+        perror("data->path");
+        exit(1);
+    }
     if (execve(data->path, cmd, data->env) == -1)
         perror("execve");
+    return ;
 }
 
 void    parent_proc(t_struct *data)
 {
-    int tmp;
-
-    waitpid(data->pid,NULL, 0);
-    tmp = open(data->av[4], O_WRONLY | O_CREAT | O_TRUNC, 0777);
-    if (tmp == -1)
-        perror("open");
-    close(data->pipefd[1]);
-    dup2(data->pipefd[0], STDIN_FILENO);
-    dup2(tmp, STDOUT_FILENO);
-    execute(data->av[3], data);
+	waitpid(-1, NULL, 0);
+	close(data->pipefd[1]);
+	close(data->infile);
+	dup2(data->pipefd[0], data->infile);
+	close(data->pipefd[0]);
 }
 
-void    child_proc(t_struct *data)
+void    child_proc(t_struct *data, int i)
 {
-    int tmp;
+    char    **cmd;
 
-    tmp = open(data->av[1], O_RDONLY, 0777);
-    if (tmp == -1)
-       ft_exit(data);
-    close(data->pipefd[0]);
-    dup2(data->pipefd[1], 1);
-    dup2(tmp, 0);
-    execute(data->av[2], data);
+    cmd = ft_split(data->av[i], ' ');
+	dup2(data->infile, STDIN_FILENO);
+	if (i == data->lenarg - 2)
+		dup2(data->outfile, STDOUT_FILENO);
+	else
+		dup2(data->pipefd[1], STDOUT_FILENO);
+    execute(cmd, data);
 }
 
 int main(int ac, char **av, char **env)
 {
     t_struct data;
+    int     i;
 
+    i = 1;
     if (ac == 5)
     {
         data = init_data(ac, av, env);
-        if (data.pid == 0)
-            child_proc(&data);
-        else
-            parent_proc(&data);
-        close(data.pipefd[0]);
-        close(data.pipefd[1]);
+        while (++i < data.lenarg - 1)
+        {
+            if (pipe(data.pipefd)== -1)
+                perror("pipe");
+            data.pid = fork();
+            if (data.pid < 0)
+                exit (1);
+            else if (data.pid == 0)
+                child_proc(&data, i);
+            else
+                parent_proc(&data);
+        }
     }
     else
         ft_putstr_fd("Error\n", 2);

@@ -16,19 +16,20 @@ t_struct init_data(int ac, char **av, char **env)
 {
     t_struct data;
 
-    if (pipe(data.pipefd)== -1)
-    {
-        perror("pipe");
-        // exit(1);
-    }
-    data.pid = fork();
-    if (data.pid == -1)
-    {
-        perror("fork");
-        // ft_exit(data);
-    }
-    data.ret = 0;
-    data.lenarg = ac - 3;
+    data.infile = open(av[1], O_RDONLY);
+    if (data.infile == -1)
+	{
+		perror(av[1]);
+		exit (1);
+	}
+    data.outfile = open(av[ac - 1], O_CREAT | O_RDWR | O_TRUNC, 0644);
+	if (data.outfile == -1)
+	{
+		perror(av[ac - 1]);
+		close(data.infile);
+		exit (1);
+	}
+    data.lenarg = ac;
     data.av = av;
     data.path = NULL;
     data.env = env;
