@@ -1,45 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_bonus.c                                       :+:      :+:    :+:   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: snarain <snarain@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/12 17:31:56 by snarain           #+#    #+#             */
-/*   Updated: 2021/11/15 17:17:09 by snarain          ###   ########.fr       */
+/*   Created: 2021/05/17 21:23:34 by snarain           #+#    #+#             */
+/*   Updated: 2021/11/15 19:11:36 by snarain          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex_bonus.h"
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
 
-void	ft_exit(t_struct *data, char **cmd)
-{
-	ft_free_tab(cmd);
-	ft_free_tab(data->cmd);
-	exit(1);
-}
+# include <stdlib.h>
+# include <stdio.h>
+# include <unistd.h>
+# include <fcntl.h>
+# define BUFFER_SIZE 12
 
-void	ft_free_tab(char **tab)
-{
-	int	i;
+void	savecheck(char *save);
 
-	i = 0;
-	while (tab[i])
-	{
-		free(tab[i]);
-		i++;
-	}
-	free(tab);
-}
+int		get_next_line(int fd, char **line);
+int		ft_strchrg(char *s, char c);
+int		ft_strleng(char *s);
+int		ft_bzerog(void *s);
 
-void	ft_close(t_struct *data)
-{
-	int	i;
+char	*ft_strdupg(char *s);
+char	*newline(char *buffer);
+char	*ft_strjoing(char *s1, char *s2);
 
-	i = 0;
-	while (i < data->lenarg)
-	{
-		close(data->pipefd[i]);
-		i++;
-	}
-}
+#endif

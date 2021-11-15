@@ -6,80 +6,69 @@
 /*   By: snarain <snarain@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 17:27:02 by snarain           #+#    #+#             */
-/*   Updated: 2021/11/12 17:54:44 by snarain          ###   ########.fr       */
+/*   Updated: 2021/11/15 19:44:03 by snarain          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
 
-void    execute(char *av, t_struct *data)
+void	parent_proc(t_struct *data)
 {
-    char    **cmd;
+	int	i;
 
-    cmd = ft_split(av, ' ');
-    data->path = get_path(cmd[0], data);
-    if (data->path == NULL)
-    {
-        perror("data->path");
-        // ft_free_tab(cmd);
-        ft_exit(data);
-    }
-    if (execve(data->path, cmd, data->env) == -1)
-        perror("execve");
+	i = waitpid(-1, NULL, 0);
+	if (i == -1)
+	{
+		perror("waitpid");
+		exit(1);
+	}
+	close(data->pipefd[1]);
+	close(data->infile);
+	dup2(data->pipefd[0], data->infile);
+	close(data->pipefd[0]);
 }
 
-void    parent_proc(t_struct *data)
+void	child_proc(t_struct *data, int i)
 {
-    int tmp;
-
-    waitpid(data->pid,NULL, 0);
-    data->indexarg++;
-    tmp = open(data->av[4], O_WRONLY | O_CREAT | O_TRUNC, 0777);
-    if (tmp == -1)
-        perror("open");
-    dup2(data->pipefd[0], STDIN_FILENO);
-    dup2(tmp, STDOUT_FILENO);
-    close(data->pipefd[1]);
-    execute(data->av[data->indexarg], data);
+	data->cmd = ft_split(data->av[i], ' ');
+	dup2(data->infile, STDIN_FILENO);
+	if (i == data->lenarg - 2)
+		dup2(data->outfile, STDOUT_FILENO);
+	else
+		dup2(data->pipefd[1], STDOUT_FILENO);
+	if (access(data->cmd[0], F_OK) == 0)
+		execve(data->cmd[0], data->cmd, data->env);
+	exec_path(data->cmd[0], data);
 }
 
-void    child_proc(t_struct *data)
+int	main(int ac, char **av, char **env)
 {
-    int tmp;
+	t_struct	data;
+	int			i;
 
-    tmp = open(data->av[1], O_RDONLY, 0777);
-    if (tmp == -1)
-       ft_exit(data);
-    data->indexarg++;
-    dup2(data->pipefd[1], STDOUT_FILENO);
-    dup2(tmp, STDIN_FILENO);
-    close(data->pipefd[0]);
-    execute(data->av[data->indexarg], data);
-}
-
-int main(int ac, char **av, char **env)
-{
-    t_struct    data;
-    int         i;
-
-    i = 0;
-    if (ac > 4)
-    {
-        init_data(ac, av, env, &data);
-        while (++i < data.lenarg)
-        {
-            data.pid = fork();
-            if (data.pid == -1)
-                perror("pid");
-            if (data.pid == 0)
-                child_proc(&data);
-            else
-                parent_proc(&data);
-        }
-        close(data.pipefd[0]);
-        close(data.pipefd[1]);
-    }
-    else
-        ft_putstr_fd("Error\n", 2);
-    return (0);
+	i = 1;
+	if (ac > 4)
+	{
+		if (ft_strnstr(av[1], "here_doc", 8) != 0)
+			ft_heredoc(av, ac, env);
+		else
+		{
+			data = init_data(ac, av, env);
+			while (++i < data.lenarg - 1)
+			{
+				if (pipe(data.pipefd) == -1)
+					perror("pipe");
+				data.pid = fork();
+				if (data.pid < 0)
+					exit (1);
+				else if (data.pid == 0)
+					child_proc(&data, i);
+				else
+					parent_proc(&data);
+			}
+		}
+	}
+	else
+		ft_putstr_fd("Error\n", 2);
+	return (0);
 }

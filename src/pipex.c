@@ -10,51 +10,60 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "pipex.h"
+#include "pipex.h"
 
-void    parent_proc(t_struct *data)
+void	parent_proc(t_struct *data)
 {
-	waitpid(-1, NULL, 0);
+	int	i;
+
+	i = waitpid(-1, NULL, 0);
+	if (i == -1)
+	{
+		perror("waitpid");
+		exit(1);
+	}
 	close(data->pipefd[1]);
 	close(data->infile);
 	dup2(data->pipefd[0], data->infile);
 	close(data->pipefd[0]);
 }
 
-void    child_proc(t_struct *data, int i)
+void	child_proc(t_struct *data, int i)
 {
-    data->cmd = ft_split(data->av[i], ' ');
+	data->cmd = ft_split(data->av[i], ' ');
 	dup2(data->infile, STDIN_FILENO);
 	if (i == data->lenarg - 2)
 		dup2(data->outfile, STDOUT_FILENO);
 	else
 		dup2(data->pipefd[1], STDOUT_FILENO);
-    exec_path(data->cmd[0], data);
+	if (access(data->cmd[0], F_OK) == 0)
+		execve(data->cmd[0], data->cmd, data->env);
+	exec_path(data->cmd[0], data);
 }
 
-int main(int ac, char **av, char **env)
+int	main(int ac, char **av, char **env)
 {
-    t_struct data;
-    int     i;
+	t_struct	data;
+	int			i;
 
-    i = 1;
-    if (ac == 5)
-    {
-        data = init_data(ac, av, env);
-        while (++i < data.lenarg - 1)
-        {
-            if (pipe(data.pipefd) == -1)
-                perror("pipe");
-            data.pid = fork();
-            if (data.pid < 0)
-                exit (1);
-            else if (data.pid == 0)
-                child_proc(&data, i);
-            else
-                parent_proc(&data);
-        }
-    }
-    else
-        ft_putstr_fd("Error\n", 2);
-    return (0);
+	i = 1;
+	if (ac == 5)
+	{
+		data = init_data(ac, av, env);
+		while (++i < data.lenarg - 1)
+		{
+			if (pipe(data.pipefd) == -1)
+				perror("pipe");
+			data.pid = fork();
+			if (data.pid < 0)
+				exit (1);
+			else if (data.pid == 0)
+				child_proc(&data, i);
+			else
+				parent_proc(&data);
+		}
+	}
+	else
+		ft_putstr_fd("Error\n", 2);
+	return (0);
 }

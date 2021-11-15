@@ -12,36 +12,34 @@
 
 #include "pipex.h"
 
-void    ft_exit(t_struct *data)
+void	ft_exit(t_struct *data, char **cmd)
 {
-    if (data->path != NULL)
-        free(data);
-    close(data->pipefd[0]);
-    close(data->pipefd[1]);
-    exit(1);
+	ft_free_tab(cmd);
+	ft_free_tab(data->cmd);
+	exit(1);
 }
 
-void ft_free_tab(char **tab)
+void	ft_free_tab(char **tab)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    while (tab[i])
-    {
-        free(tab[i]);
-        i++;
-    }
-    free(tab);
+	i = 0;
+	while (tab[i])
+	{
+		free(tab[i]);
+		i++;
+	}
+	free(tab);
 }
 
-void ft_close(t_struct *data)
+void	ft_close(t_struct *data)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    while (i < data->lenarg)
-    {
-        close(data->pipefd[i]);
-        i++;
-    }
+	i = 0;
+	while (i < data->lenarg)
+	{
+		close(data->pipefd[i]);
+		i++;
+	}
 }

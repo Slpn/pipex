@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# ifndef PIPEX_H
+#ifndef PIPEX_H
 # define PIPEX_H
 
 # include <stdlib.h>
@@ -21,24 +21,26 @@
 # include <fcntl.h>
 # include "../libft/libft.h"
 
-typedef struct  s_struct
+typedef struct s_struct
 {
-    pid_t   pid;
-    int     pipefd[2];
-    char    *path;
-    int     lenarg;
-    int     infile;
-    int     outfile;
-    char    **cmd;
-    char    **av;
-    char    **env;
-}   t_struct;
+	pid_t	pid;
+	int		pipefd[2];
+	char	*path;
+	int		lenarg;
+	int		infile;
+	int		outfile;
+	int		ret;
+	char	**cmd;
+	char	**av;
+	char	**env;
+}t_struct;
 
-void        ft_free_tab(char **tab);
-int         get_len(char **av, char **path);
-t_struct    init_data(int ac, char **av, char **env);
-void        child_proc(t_struct *data, int i);
-void        parent_proc(t_struct *data);
-char        **get_path(t_struct *data);
-void        exec_path(char *cmd, t_struct *data);
+void		ft_free_tab(char **tab);
+int			get_len(char **av, char **path);
+t_struct	init_data(int ac, char **av, char **env);
+void		child_proc(t_struct *data, int i);
+void		parent_proc(t_struct *data);
+char		**get_path(t_struct *data);
+void		exec_path(char *cmd, t_struct *data);
+void		ft_exit(t_struct *data, char **cmd);
 #endif

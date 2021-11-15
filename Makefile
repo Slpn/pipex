@@ -18,6 +18,9 @@ SRCS	 	=	src/pipex.c \
 SRCS_BONUS	 =	bonus/pipex_bonus.c \
 				bonus/free_bonus.c \
 				bonus/get_path_bonus.c \
+				bonus/heredoc_bonus.c \
+				GNL/get_next_line.c \
+				GNL/get_next_line_utils.c \
 				bonus/utils_bonus.c
 
 OBJS 		= 	${SRCS:.c=.o}

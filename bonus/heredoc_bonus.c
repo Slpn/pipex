@@ -1,45 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_bonus.c                                       :+:      :+:    :+:   */
+/*   heredoc_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: snarain <snarain@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/12 17:31:56 by snarain           #+#    #+#             */
-/*   Updated: 2021/11/15 17:17:09 by snarain          ###   ########.fr       */
+/*   Created: 2021/11/15 18:19:49 by snarain           #+#    #+#             */
+/*   Updated: 2021/11/15 19:40:02 by snarain          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
 
-void	ft_exit(t_struct *data, char **cmd)
+t_struct	init_heredoc(int ac, char **av, char **env)
 {
-	ft_free_tab(cmd);
-	ft_free_tab(data->cmd);
-	exit(1);
+	t_struct	data;
+
+	data.lenarg = ac;
+	data.av = av;
+	data.path = NULL;
+	data.env = env;
+	data.ret = 0;
+	return (data);
 }
 
-void	ft_free_tab(char **tab)
+void	ft_heredoc(char **av, int ac, char **env)
 {
-	int	i;
+	t_struct	data;
+	char		*line;
+	int			tmp;
 
-	i = 0;
-	while (tab[i])
+	tmp = ft_strleng(av[2]);
+	line = NULL;
+	data = init_heredoc(ac, av, env);
+	while (1)
 	{
-		free(tab[i]);
-		i++;
+		get_next_line(0, &line);
+		if (ft_strnstr(line, data.av[2], tmp) != 0)
+			break ;
 	}
-	free(tab);
-}
-
-void	ft_close(t_struct *data)
-{
-	int	i;
-
-	i = 0;
-	while (i < data->lenarg)
-	{
-		close(data->pipefd[i]);
-		i++;
-	}
+	return ;
 }
