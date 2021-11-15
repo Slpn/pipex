@@ -12,20 +12,6 @@
 
 # include "pipex.h"
 
-void    execute(char **cmd, t_struct *data)
-{
-
-    data->path = get_path(cmd[0], data);
-    if (data->path == NULL)
-    {
-        perror("data->path");
-        exit(1);
-    }
-    if (execve(data->path, cmd, data->env) == -1)
-        perror("execve");
-    return ;
-}
-
 void    parent_proc(t_struct *data)
 {
 	waitpid(-1, NULL, 0);
@@ -37,15 +23,13 @@ void    parent_proc(t_struct *data)
 
 void    child_proc(t_struct *data, int i)
 {
-    char    **cmd;
-
-    cmd = ft_split(data->av[i], ' ');
+    data->cmd = ft_split(data->av[i], ' ');
 	dup2(data->infile, STDIN_FILENO);
 	if (i == data->lenarg - 2)
 		dup2(data->outfile, STDOUT_FILENO);
 	else
 		dup2(data->pipefd[1], STDOUT_FILENO);
-    execute(cmd, data);
+    exec_path(data->cmd[0], data);
 }
 
 int main(int ac, char **av, char **env)
@@ -59,7 +43,7 @@ int main(int ac, char **av, char **env)
         data = init_data(ac, av, env);
         while (++i < data.lenarg - 1)
         {
-            if (pipe(data.pipefd)== -1)
+            if (pipe(data.pipefd) == -1)
                 perror("pipe");
             data.pid = fork();
             if (data.pid < 0)

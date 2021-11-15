@@ -29,15 +29,16 @@ typedef struct  s_struct
     int     lenarg;
     int     infile;
     int     outfile;
+    char    **cmd;
     char    **av;
     char    **env;
 }   t_struct;
 
-char        *get_path(char *cmd, t_struct *data);
 void        ft_free_tab(char **tab);
 int         get_len(char **av, char **path);
 t_struct    init_data(int ac, char **av, char **env);
 void        child_proc(t_struct *data, int i);
 void        parent_proc(t_struct *data);
-void        execute(char **cmd, t_struct *data);
+char        **get_path(t_struct *data);
+void        exec_path(char *cmd, t_struct *data);
 #endif
