@@ -6,7 +6,7 @@
 /*   By: snarain <snarain@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 17:28:02 by snarain           #+#    #+#             */
-/*   Updated: 2021/11/15 19:10:37 by snarain          ###   ########.fr       */
+/*   Updated: 2021/11/16 16:43:34 by snarain          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct s_struct
 	int		infile;
 	int		outfile;
 	int		ret;
+	char	*line;
 	char	**cmd;
 	char	**av;
 	char	**env;
@@ -45,5 +46,6 @@ char		**get_path(t_struct *data);
 void		exec_path(char *cmd, t_struct *data);
 void		ft_exit(t_struct *data, char **cmd);
 void		ft_heredoc(char **av, int ac, char **env);
+char		*ft_strjoin_h(char *s1, char *s2);
 
 #endif

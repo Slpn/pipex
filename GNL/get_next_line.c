@@ -6,7 +6,7 @@
 /*   By: snarain <snarain@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/05 15:48:11 by snarain           #+#    #+#             */
-/*   Updated: 2021/11/15 19:24:01 by snarain          ###   ########.fr       */
+/*   Updated: 2021/11/16 17:20:52 by snarain          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*newline(char *buffer)
 	i = 0;
 	while (buffer[i] && buffer[i] != '\n')
 		i++;
-	str = malloc(sizeof(char) * i + 1);
+	str = malloc(sizeof(char) * (i + 1));
 	if (!str)
 		return (NULL);
 	i = 0;

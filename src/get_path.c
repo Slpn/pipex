@@ -6,7 +6,7 @@
 /*   By: snarain <snarain@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/04 15:40:28 by snarain           #+#    #+#             */
-/*   Updated: 2021/11/15 19:13:35 by snarain          ###   ########.fr       */
+/*   Updated: 2021/11/16 19:02:48 by snarain          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ void	exec_path(char *cmd, t_struct *data)
 		free(tmp);
 		if (access(path, F_OK) == 0)
 		{
-			printf("here \n");
 			data->ret = execve(path, data->cmd, data->env);
 			if (data->ret == -1)
 				perror("execve");

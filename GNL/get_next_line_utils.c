@@ -6,7 +6,7 @@
 /*   By: snarain <snarain@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/16 20:00:30 by snarain           #+#    #+#             */
-/*   Updated: 2021/11/15 19:03:57 by snarain          ###   ########.fr       */
+/*   Updated: 2021/11/16 17:14:11 by snarain          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char	*ft_strjoing(char *s1, char *s2)
 	int		j;
 	char	*str;
 
-	i = -1;
+	i = 0;
 	j = ft_strleng(s1) + ft_strleng(s2);
 	str = malloc(sizeof(char) * (j + 1));
 	if (!str)
@@ -47,8 +47,11 @@ char	*ft_strjoing(char *s1, char *s2)
 	str[j] = 0;
 	if (s1)
 	{
-		while (s1[++i])
+		while (s1[i])
+		{
 			str[i] = s1[i];
+			i++;
+		}
 		free(s1);
 	}
 	if (s2)
