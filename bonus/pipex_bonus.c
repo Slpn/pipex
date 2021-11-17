@@ -6,7 +6,7 @@
 /*   By: snarain <snarain@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 17:27:02 by snarain           #+#    #+#             */
-/*   Updated: 2021/11/15 19:44:03 by snarain          ###   ########.fr       */
+/*   Updated: 2021/11/17 00:47:16 by snarain          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,30 @@ void	child_proc(t_struct *data, int i)
 	exec_path(data->cmd[0], data);
 }
 
+void	main_loops(t_struct *data)
+{
+	int	i;
+
+	i = 1;
+	while (++i < data->lenarg - 1)
+	{
+		if (pipe(data->pipefd) == -1)
+			perror("pipe");
+		data->pid = fork();
+		if (data->pid < 0)
+			exit (1);
+		else if (data->pid == 0)
+			child_proc(data, i);
+		else
+			parent_proc(data);
+	}
+	return ;
+}
+
 int	main(int ac, char **av, char **env)
 {
 	t_struct	data;
-	int			i;
 
-	i = 1;
 	if (ac > 4)
 	{
 		if (ft_strnstr(av[1], "here_doc", 8) != 0)
@@ -54,18 +72,7 @@ int	main(int ac, char **av, char **env)
 		else
 		{
 			data = init_data(ac, av, env);
-			while (++i < data.lenarg - 1)
-			{
-				if (pipe(data.pipefd) == -1)
-					perror("pipe");
-				data.pid = fork();
-				if (data.pid < 0)
-					exit (1);
-				else if (data.pid == 0)
-					child_proc(&data, i);
-				else
-					parent_proc(&data);
-			}
+			main_loops(&data);
 		}
 	}
 	else

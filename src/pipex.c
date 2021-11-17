@@ -64,6 +64,9 @@ int	main(int ac, char **av, char **env)
 		}
 	}
 	else
+    {
 		ft_putstr_fd("Error\n", 2);
-	return (0);
+        exit (1);
+    }
+    return (0);
 }
