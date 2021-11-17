@@ -6,7 +6,7 @@
 /*   By: snarain <snarain@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 17:28:02 by snarain           #+#    #+#             */
-/*   Updated: 2021/11/16 16:43:34 by snarain          ###   ########.fr       */
+/*   Updated: 2021/11/17 18:25:17 by snarain          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ typedef struct s_struct
 	char	**cmd;
 	char	**av;
 	char	**env;
-}t_struct;
+	int		index_main;
+}	t_struct;
 
 void		ft_free_tab(char **tab);
 int			get_len(char **av, char **path);
@@ -47,5 +48,6 @@ void		exec_path(char *cmd, t_struct *data);
 void		ft_exit(t_struct *data, char **cmd);
 void		ft_heredoc(char **av, int ac, char **env);
 char		*ft_strjoin_h(char *s1, char *s2);
+void		main_loops(t_struct *data);
 
 #endif

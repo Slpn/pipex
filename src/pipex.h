@@ -33,7 +33,9 @@ typedef struct s_struct
 	char	**cmd;
 	char	**av;
 	char	**env;
-}t_struct;
+	char	*bash;
+	int		index_main;
+}	t_struct;
 
 void		ft_free_tab(char **tab);
 int			get_len(char **av, char **path);

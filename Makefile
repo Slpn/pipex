@@ -13,15 +13,15 @@
 SRCS	 	=	src/pipex.c \
 				src/free.c \
 				src/get_path.c \
-				src/utils.c
+				src/utils.c \
 
 SRCS_BONUS	 =	bonus/pipex_bonus.c \
 				bonus/free_bonus.c \
 				bonus/get_path_bonus.c \
 				bonus/heredoc_bonus.c \
+				bonus/utils_bonus.c \
 				GNL/get_next_line.c \
 				GNL/get_next_line_utils.c \
-				bonus/utils_bonus.c
 
 OBJS 		= 	${SRCS:.c=.o}
 OBJS_BONUS	=	${SRCS_BONUS:.c=.o}
@@ -38,8 +38,8 @@ all:			${NAME}
 
 bonus:			${NAME_BONUS}
 
-# .c.o:
-# 				${CC} -c $< -o ${<:.c=.o}
+.c.o:
+				${CC} -c $< -o ${<:.c=.o}
 
 $(NAME):		$(OBJS)
 				make -C $(LIBPATH)

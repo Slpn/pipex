@@ -6,7 +6,7 @@
 /*   By: snarain <snarain@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 17:29:46 by snarain           #+#    #+#             */
-/*   Updated: 2021/11/16 19:23:34 by snarain          ###   ########.fr       */
+/*   Updated: 2021/11/17 17:40:18 by snarain          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ t_struct	init_data(int ac, char **av, char **env)
 	data.path = NULL;
 	data.env = env;
 	data.ret = 0;
+	data.index_main = 1;
 	return (data);
 }
 

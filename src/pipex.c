@@ -44,13 +44,11 @@ void	child_proc(t_struct *data, int i)
 int	main(int ac, char **av, char **env)
 {
 	t_struct	data;
-	int			i;
 
-	i = 1;
 	if (ac == 5)
 	{
 		data = init_data(ac, av, env);
-		while (++i < data.lenarg - 1)
+		while (++data.index_main < data.lenarg - 1)
 		{
 			if (pipe(data.pipefd) == -1)
 				perror("pipe");
@@ -58,15 +56,14 @@ int	main(int ac, char **av, char **env)
 			if (data.pid < 0)
 				exit (1);
 			else if (data.pid == 0)
-				child_proc(&data, i);
+				child_proc(&data, data.index_main);
 			else
 				parent_proc(&data);
 		}
+		close(data.outfile);
+		close(data.infile);
 	}
 	else
-    {
-		ft_putstr_fd("Error\n", 2);
-        exit (1);
-    }
-    return (0);
+		exit(1);
+	return (0);
 }

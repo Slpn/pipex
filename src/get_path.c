@@ -6,7 +6,7 @@
 /*   By: snarain <snarain@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/04 15:40:28 by snarain           #+#    #+#             */
-/*   Updated: 2021/11/16 19:02:48 by snarain          ###   ########.fr       */
+/*   Updated: 2021/11/17 19:29:07 by snarain          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ void	exec_path(char *cmd, t_struct *data)
 		}
 		free(path);
 	}
-	ft_putstr_fd("command not found\n", 2);
+	ft_putstr_fd("zsh:", 2);
+	ft_putstr_fd("command not found ", 2);
+	ft_putendl_fd(cmd, 2);
 	ft_exit(data, tab);
 }

@@ -6,7 +6,7 @@
 /*   By: snarain <snarain@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 17:27:02 by snarain           #+#    #+#             */
-/*   Updated: 2021/11/17 00:47:16 by snarain          ###   ########.fr       */
+/*   Updated: 2021/11/17 16:45:55 by snarain          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ void	parent_proc(t_struct *data)
 void	child_proc(t_struct *data, int i)
 {
 	data->cmd = ft_split(data->av[i], ' ');
-	dup2(data->infile, STDIN_FILENO);
+	if (data->infile != 0)
+		dup2(data->infile, STDIN_FILENO);
 	if (i == data->lenarg - 2)
 		dup2(data->outfile, STDOUT_FILENO);
 	else
@@ -43,10 +44,7 @@ void	child_proc(t_struct *data, int i)
 
 void	main_loops(t_struct *data)
 {
-	int	i;
-
-	i = 1;
-	while (++i < data->lenarg - 1)
+	while (++data->index_main < data->lenarg - 1)
 	{
 		if (pipe(data->pipefd) == -1)
 			perror("pipe");
@@ -54,7 +52,7 @@ void	main_loops(t_struct *data)
 		if (data->pid < 0)
 			exit (1);
 		else if (data->pid == 0)
-			child_proc(data, i);
+			child_proc(data, data->index_main);
 		else
 			parent_proc(data);
 	}

@@ -6,7 +6,7 @@
 /*   By: snarain <snarain@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/05 15:48:11 by snarain           #+#    #+#             */
-/*   Updated: 2021/11/16 17:20:52 by snarain          ###   ########.fr       */
+/*   Updated: 2021/11/17 18:01:18 by snarain          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,6 @@ int	get_next_line(int fd, char **line)
 	static char	buffer[BUFFER_SIZE + 1];
 	int			ret;
 
-	// if (fd <= 0 || !line || BUFFER_SIZE < 0 || read(fd, "", 0) == -1)
-	// 	return (-1);
 	ret = 1;
 	*line = ft_strdupg("");
 	*line = ft_strjoing(*line, buffer);

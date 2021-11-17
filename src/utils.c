@@ -34,15 +34,7 @@ t_struct	init_data(int ac, char **av, char **env)
 	data.path = NULL;
 	data.env = env;
 	data.ret = 0;
+	data.index_main = 1;
+	data.bash = NULL;
 	return (data);
-}
-
-int	ft_tablen(char **tab)
-{
-	int	i;
-
-	i = 0;
-	while (tab[i])
-		i++;
-	return (i);
 }
