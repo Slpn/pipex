@@ -35,6 +35,7 @@ typedef struct s_struct
 	char	**env;
 	char	*bash;
 	int		index_main;
+	int		last;
 }	t_struct;
 
 void		ft_free_tab(char **tab);
@@ -45,4 +46,5 @@ void		parent_proc(t_struct *data);
 char		**get_path(t_struct *data);
 void		exec_path(char *cmd, t_struct *data);
 void		ft_exit(t_struct *data, char **cmd);
+void		ft_close(t_struct *data);
 #endif

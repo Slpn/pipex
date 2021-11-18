@@ -20,7 +20,7 @@ t_struct	init_data(int ac, char **av, char **env)
 	if (data.infile == -1)
 	{
 		perror(av[1]);
-		exit (1);
+		exit (0);
 	}
 	data.outfile = open(av[ac - 1], O_CREAT | O_RDWR | O_TRUNC, 0644);
 	if (data.outfile == -1)
@@ -36,5 +36,6 @@ t_struct	init_data(int ac, char **av, char **env)
 	data.ret = 0;
 	data.index_main = 1;
 	data.bash = NULL;
+	data.last = 0;
 	return (data);
 }

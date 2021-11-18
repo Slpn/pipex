@@ -15,8 +15,9 @@
 void	parent_proc(t_struct *data)
 {
 	int	i;
+	int	status;
 
-	i = waitpid(-1, NULL, 0);
+	i = waitpid(data->pid, &status, 0);
 	if (i == -1)
 	{
 		perror("waitpid");
@@ -26,6 +27,8 @@ void	parent_proc(t_struct *data)
 	close(data->infile);
 	dup2(data->pipefd[0], data->infile);
 	close(data->pipefd[0]);
+	if (status == 32512 && data->index_main == data->lenarg - 2)
+		exit (127);
 }
 
 void	child_proc(t_struct *data, int i)
@@ -60,8 +63,7 @@ int	main(int ac, char **av, char **env)
 			else
 				parent_proc(&data);
 		}
-		close(data.outfile);
-		close(data.infile);
+		ft_close(&data);
 	}
 	else
 		exit(1);

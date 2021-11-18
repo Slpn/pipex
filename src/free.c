@@ -16,7 +16,7 @@ void	ft_exit(t_struct *data, char **cmd)
 {
 	ft_free_tab(cmd);
 	ft_free_tab(data->cmd);
-	exit(1);
+	exit (127);
 }
 
 void	ft_free_tab(char **tab)
@@ -34,12 +34,6 @@ void	ft_free_tab(char **tab)
 
 void	ft_close(t_struct *data)
 {
-	int	i;
-
-	i = 0;
-	while (i < data->lenarg)
-	{
-		close(data->pipefd[i]);
-		i++;
-	}
+	close(data->infile);
+	close(data->outfile);
 }
