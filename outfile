@@ -1,1 +1,13 @@
-      0       0       0
+total 48
+drwxrwxrwx 1 snarain snarain  4096 Nov 21 23:33 .
+drwxrwxrwx 1 snarain snarain  4096 Nov 21 18:35 ..
+drwxrwxrwx 1 snarain snarain  4096 Nov 19 15:15 .git
+drwxrwxrwx 1 snarain snarain  4096 Nov 21 23:33 GNL
+-rwxrwxrwx 1 snarain snarain  1924 Nov 17 21:56 Makefile
+drwxrwxrwx 1 snarain snarain  4096 Nov 21 23:33 bonus
+-rwxrwxrwx 1 snarain snarain    31 Nov 19 15:15 infile
+drwxrwxrwx 1 snarain snarain  4096 Nov 21 23:33 libft
+-rwxrwxrwx 1 snarain snarain     0 Nov 21 23:34 outfile
+-rwxrwxrwx 1 snarain snarain 18144 Nov 21 23:33 pipex
+-rwxrwxrwx 1 snarain snarain 22808 Nov 21 23:33 pipex_bonus
+drwxrwxrwx 1 snarain snarain  4096 Nov 21 23:33 src

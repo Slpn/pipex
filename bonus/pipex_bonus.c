@@ -6,7 +6,7 @@
 /*   By: snarain <snarain@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 17:27:02 by snarain           #+#    #+#             */
-/*   Updated: 2021/11/17 16:45:55 by snarain          ###   ########.fr       */
+/*   Updated: 2021/11/21 18:35:25 by snarain          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,6 @@ int	main(int ac, char **av, char **env)
 		}
 	}
 	else
-		ft_putstr_fd("Error\n", 2);
+		exit (1);
 	return (0);
 }
