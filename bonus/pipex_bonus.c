@@ -6,7 +6,7 @@
 /*   By: snarain <snarain@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 17:27:02 by snarain           #+#    #+#             */
-/*   Updated: 2021/11/21 18:35:25 by snarain          ###   ########.fr       */
+/*   Updated: 2021/11/23 20:46:33 by snarain          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,9 @@
 void	parent_proc(t_struct *data)
 {
 	int	i;
+	int	status;
 
-	i = waitpid(-1, NULL, 0);
+	i = waitpid(data->pid, &status, 0);
 	if (i == -1)
 	{
 		perror("waitpid");
@@ -26,13 +27,14 @@ void	parent_proc(t_struct *data)
 	close(data->infile);
 	dup2(data->pipefd[0], data->infile);
 	close(data->pipefd[0]);
+	if (status == 32512 && data->index_main == data->lenarg - 2)
+		exit (127);
 }
 
 void	child_proc(t_struct *data, int i)
 {
 	data->cmd = ft_split(data->av[i], ' ');
-	if (data->infile != 0)
-		dup2(data->infile, STDIN_FILENO);
+	dup2(data->infile, STDIN_FILENO);
 	if (i == data->lenarg - 2)
 		dup2(data->outfile, STDOUT_FILENO);
 	else
@@ -66,11 +68,15 @@ int	main(int ac, char **av, char **env)
 	if (ac > 4)
 	{
 		if (ft_strnstr(av[1], "here_doc", 8) != 0)
+		{
 			ft_heredoc(av, ac, env);
+			close(data.outfile);
+		}
 		else
 		{
 			data = init_data(ac, av, env);
 			main_loops(&data);
+			ft_close(&data);
 		}
 	}
 	else

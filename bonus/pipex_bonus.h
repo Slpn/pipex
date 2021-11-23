@@ -6,7 +6,7 @@
 /*   By: snarain <snarain@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 17:28:02 by snarain           #+#    #+#             */
-/*   Updated: 2021/11/17 18:25:17 by snarain          ###   ########.fr       */
+/*   Updated: 2021/11/23 17:40:40 by snarain          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,5 +49,6 @@ void		ft_exit(t_struct *data, char **cmd);
 void		ft_heredoc(char **av, int ac, char **env);
 char		*ft_strjoin_h(char *s1, char *s2);
 void		main_loops(t_struct *data);
+void		ft_close(t_struct *data);
 
 #endif

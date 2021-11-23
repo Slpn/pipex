@@ -55,7 +55,7 @@ clean:
 
 fclean:			clean
 				make -C ${LIBPATH} fclean
-				${RM} ${NAME}  ${NAME_BONUS}
+				${RM} ${NAME} ${NAME_BONUS}
 
 re:				fclean all
 

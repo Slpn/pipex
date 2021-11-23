@@ -6,7 +6,7 @@
 /*   By: snarain <snarain@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 17:31:56 by snarain           #+#    #+#             */
-/*   Updated: 2021/11/15 17:17:09 by snarain          ###   ########.fr       */
+/*   Updated: 2021/11/23 17:40:26 by snarain          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,6 @@ void	ft_free_tab(char **tab)
 
 void	ft_close(t_struct *data)
 {
-	int	i;
-
-	i = 0;
-	while (i < data->lenarg)
-	{
-		close(data->pipefd[i]);
-		i++;
-	}
+	close(data->infile);
+	close(data->outfile);
 }
