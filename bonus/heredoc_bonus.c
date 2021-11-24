@@ -6,7 +6,7 @@
 /*   By: snarain <snarain@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/15 18:19:49 by snarain           #+#    #+#             */
-/*   Updated: 2021/11/23 21:02:11 by snarain          ###   ########.fr       */
+/*   Updated: 2021/11/24 19:46:28 by snarain          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,32 +29,39 @@ t_struct	init_heredoc(int ac, char **av, char **env)
 	data.ret = 0;
 	data.line = NULL;
 	data.infile = 0;
-	data.index_main = 3;
+	data.index_main = 2;
 	return (data);
+}
+
+void	heredoc_parent(t_struct *data)
+{
+	waitpid(data->pid, NULL, 0);
+	dup2(data->pipefd[0], data->infile);
+	close(data->pipefd[0]);
+	close(data->pipefd[1]);
+	main_loops(data);
 }
 
 void	ft_heredoc(char **av, int ac, char **env)
 {
 	t_struct	data;
-	char		*line;
 
-	line = NULL;
 	data = init_heredoc(ac, av, env);
 	if (pipe(data.pipefd) == -1)
 		perror("pipe");
+	data.pid = fork();
+	if (data.pid > 0)
+		heredoc_parent(&data);
 	dup2(data.pipefd[1], STDOUT_FILENO);
-	while (get_next_line(0, &line) != 0)
+	while (get_next_line(0, &data.line) != 0)
 	{
-		if (ft_strnstr(line, av[2], ft_strlen(av[2])) != 0)
+		if (ft_strnstr(data.line, av[2], ft_strlen(av[2])) != 0)
 			break ;
-		write(data.pipefd[1], line, ft_strleng(line));
+		write(data.pipefd[1], data.line, ft_strleng(data.line));
 		write(data.pipefd[1], "\n", 1);
-		free(line);
+		free(data.line);
 	}
-	if (line)
-		free(line);
-	// dup2(data.infile, data.pipefd[1]);
-	child_proc(&data, data.index_main);
-	main_loops(&data);
+	if (data.line)
+		free(data.line);
 	return ;
 }
