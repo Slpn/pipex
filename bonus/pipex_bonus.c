@@ -6,7 +6,7 @@
 /*   By: snarain <snarain@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 17:27:02 by snarain           #+#    #+#             */
-/*   Updated: 2021/11/24 19:16:00 by snarain          ###   ########.fr       */
+/*   Updated: 2021/11/25 00:16:42 by snarain          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,7 @@ int	main(int ac, char **av, char **env)
 	if (ac > 4)
 	{
 		if (ft_strnstr(av[1], "here_doc", 8) != 0)
-		{
 			ft_heredoc(av, ac, env);
-			close(data.outfile);
-		}
 		else
 		{
 			data = init_data(ac, av, env);

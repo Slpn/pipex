@@ -6,7 +6,7 @@
 /*   By: snarain <snarain@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/15 18:19:49 by snarain           #+#    #+#             */
-/*   Updated: 2021/11/24 19:46:28 by snarain          ###   ########.fr       */
+/*   Updated: 2021/11/25 00:19:11 by snarain          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	heredoc_parent(t_struct *data)
 	close(data->pipefd[0]);
 	close(data->pipefd[1]);
 	main_loops(data);
+	close(data->outfile);
 }
 
 void	ft_heredoc(char **av, int ac, char **env)
