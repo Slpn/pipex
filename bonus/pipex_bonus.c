@@ -6,46 +6,64 @@
 /*   By: snarain <snarain@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 17:27:02 by snarain           #+#    #+#             */
-/*   Updated: 2021/11/25 00:16:42 by snarain          ###   ########.fr       */
+/*   Updated: 2021/11/25 18:55:34 by snarain          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
 
-void	parent_proc(t_struct *data)
+void	wait_loop(t_struct *data)
 {
-	int	i;
 	int	status;
 
-	i = waitpid(data->pid, &status, 0);
-	if (i == -1)
+	while (data->lenarg - 1 > 2)
 	{
-		perror("waitpid");
-		exit(1);
+		waitpid(0, &status, 0);
+		data->lenarg--;
 	}
+}
+
+void	parent_proc(t_struct *data)
+{	
 	close(data->pipefd[1]);
 	close(data->infile);
-	dup2(data->pipefd[0], data->infile);
-	close(data->pipefd[0]);
-	if (status == 32512 && data->index_main == data->lenarg - 2)
-		exit (127);
+	data->infile = data->pipefd[0];
 }
 
 void	child_proc(t_struct *data, int i)
 {
+	close(data->pipefd[0]);
 	data->cmd = ft_split(data->av[i], ' ');
-	dup2(data->infile, STDIN_FILENO);
+	data->ret = dup2(data->infile, STDIN_FILENO);
+	if (data->ret == -1)
+		perror("dup2");
+	close(data->infile);
 	if (i == data->lenarg - 2)
-		dup2(data->outfile, STDOUT_FILENO);
+	{
+		data->ret = dup2(data->outfile, STDOUT_FILENO);
+		if (data->ret == -1)
+			perror("dup2");
+		close(data->outfile);
+	}
 	else
-		dup2(data->pipefd[1], STDOUT_FILENO);
+	{
+		data->ret = dup2(data->pipefd[1], STDOUT_FILENO);
+		if (data->ret == -1)
+			perror("dup2");
+	}
+	close(data->pipefd[1]);
 	if (access(data->cmd[0], F_OK) == 0)
 		execve(data->cmd[0], data->cmd, data->env);
 	exec_path(data->cmd[0], data);
+	exit (127);
 }
 
 void	main_loops(t_struct *data)
 {
+	int	status;
+	int	i;
+
+	i = 0;
 	while (++data->index_main < data->lenarg - 1)
 	{
 		if (pipe(data->pipefd) == -1)
@@ -58,7 +76,8 @@ void	main_loops(t_struct *data)
 		else
 			parent_proc(data);
 	}
-	return ;
+	wait_loop(data);
+	ft_close(data);
 }
 
 int	main(int ac, char **av, char **env)
@@ -73,7 +92,6 @@ int	main(int ac, char **av, char **env)
 		{
 			data = init_data(ac, av, env);
 			main_loops(&data);
-			ft_close(&data);
 		}
 	}
 	else

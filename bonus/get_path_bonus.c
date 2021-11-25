@@ -6,7 +6,7 @@
 /*   By: snarain <snarain@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 17:30:23 by snarain           #+#    #+#             */
-/*   Updated: 2021/11/15 17:15:51 by snarain          ###   ########.fr       */
+/*   Updated: 2021/11/25 18:42:07 by snarain          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ char	**get_path(t_struct *data)
 	while (ft_strnstr(data->env[i], "PATH", 4) == 0)
 		i++;
 	tab = ft_split(data->env[i] + 5, ':');
+	if (tab == NULL)
+		return (NULL);
 	return (tab);
 }
 
@@ -46,6 +48,7 @@ void	exec_path(char *cmd, t_struct *data)
 		}
 		free(path);
 	}
-	ft_putstr_fd("command not found\n", 2);
+	ft_putstr_fd("command not found ", 2);
+	ft_putendl_fd(cmd, 2);
 	ft_exit(data, tab);
 }
