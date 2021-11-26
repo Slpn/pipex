@@ -6,7 +6,7 @@
 /*   By: snarain <snarain@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 17:27:02 by snarain           #+#    #+#             */
-/*   Updated: 2021/11/25 18:55:34 by snarain          ###   ########.fr       */
+/*   Updated: 2021/11/26 01:44:43 by snarain          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,16 @@ void	wait_loop(t_struct *data)
 {
 	int	status;
 
+	status = 0;
 	while (data->lenarg - 1 > 2)
 	{
 		waitpid(0, &status, 0);
+		if (data->index_main == data->lenarg - 1)
+			data->ret = WEXITSTATUS(status);
 		data->lenarg--;
 	}
+	ft_close(data);
+	exit(data->ret);
 }
 
 void	parent_proc(t_struct *data)
@@ -55,7 +60,6 @@ void	child_proc(t_struct *data, int i)
 	if (access(data->cmd[0], F_OK) == 0)
 		execve(data->cmd[0], data->cmd, data->env);
 	exec_path(data->cmd[0], data);
-	exit (127);
 }
 
 void	main_loops(t_struct *data)
@@ -64,6 +68,7 @@ void	main_loops(t_struct *data)
 	int	i;
 
 	i = 0;
+	status = 0;
 	while (++data->index_main < data->lenarg - 1)
 	{
 		if (pipe(data->pipefd) == -1)
@@ -77,7 +82,9 @@ void	main_loops(t_struct *data)
 			parent_proc(data);
 	}
 	wait_loop(data);
-	ft_close(data);
+	// waitpid(data->pid, &status, 0);
+	// if (data->index_main == data->lenarg - 1)
+	// 	data->ret = WEXITSTATUS(status);
 }
 
 int	main(int ac, char **av, char **env)
