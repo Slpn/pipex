@@ -6,7 +6,7 @@
 /*   By: snarain <snarain@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/04 15:40:28 by snarain           #+#    #+#             */
-/*   Updated: 2021/11/25 18:01:53 by snarain          ###   ########.fr       */
+/*   Updated: 2021/11/26 15:51:56 by snarain          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,5 +48,6 @@ void	exec_path(char *cmd, t_struct *data)
 	}
 	ft_putstr_fd("command not found ", 2);
 	ft_putendl_fd(cmd, 2);
+	ft_close(data);
 	ft_exit(data, tab);
 }
